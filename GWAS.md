@@ -2,7 +2,7 @@
 
 ## Objectives
 In this practical, you will learn the basic steps of data quality assessment and QC on genotype data that are typically carried out in genome-wide association studies (GWAS).
-* [Genotype Data format](#Genotype Data format)
+* [Genotype Data format](#genotype-data-format)
 * [Sample QC](#Sample-QC)
 * [Variant QC](#Variant-QC)
 * [Association analysis](#Assoc)
