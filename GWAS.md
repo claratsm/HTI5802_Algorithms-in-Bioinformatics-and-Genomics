@@ -236,7 +236,7 @@ abline(h=0.8, lwd=2, lty=2, col="blue")
 legend("bottomleft", c("Male PEDSEX","Female PEDSEX","sample with PROBELM"), col=c(colsex,"black"),pt.bg="green", pch=c(20,20,22))
 # =============================================================
 ```
-![practical2 sexcheck-fmiss](https://user-images.githubusercontent.com/8644480/170832150-fb1471ed-be27-4e1e-80eb-cdf78989d21f.png)
+![practical2 sexcheck-fmiss](https://github.com/user-attachments/assets/7632a6e2-453f-4922-b6fe-d938dc3609ab)
 
 In addition to poor sample or genotyping quality, X chromosome aneuploidy, such as Turner syndrome (e.g. 45,X0) and Klinefelter syndrome (47, XXY), may lead to abnormal heterogenity. Missingness for SNPs on chr Y can be used to impute sex using `--check-sex ycount [female max F] [male min F] [female max Y obs] [male min Y obs]`. Before determining the minimum and maximum threshold of observed chrY variants, we can first set [female max Y obs] to maximum number of chrY variants and [male min Y obs] to 0  
 ```bash
