@@ -2,7 +2,7 @@
 
 ## Objectives
 In this practical, you will learn the basic steps of data quality assessment and QC on genotype data that are typically carried out in genome-wide association studies (GWAS).
-* [Genotype Data format](#PLINKformat)
+* [Genotype Data format](#Genotype Data format)
 * [Sample QC](#Sample-QC)
 * [Variant QC](#Variant-QC)
 * [Association analysis](#Assoc)
@@ -11,26 +11,7 @@ In this practical, you will learn the basic steps of data quality assessment and
 For sample and variant QC, we need the following software that is pre-installed in the VM
 - `PLINK`[1.9 beta](https://www.cog-genomics.org/plink/) for data management 
 - `R` for visualization of different QC measures
-
-## Why do we need the QC on GWAS data?
-Suboptimal study design, poor sample quality, and errors in genotype calling can introduce systematic biases into GWAS, leading to spurious associations. A thorough QC can help us identify samples and variants that should be removed prior to association analysis to minimize false-positive and false-negative associations.
-
-Here we assume that the study design has been conducted appropriately and basic QC to genotypes (e.g. QC based on GenTrain score in Illumina GenomeStudio or rare SNPs calling using zCall) has been performed after clustering and calling from probe intensity data. 
-
-## The QC protocol: from Sample QC to Variant QC 
-The QC protocol for GWAS typically split into two broad categories, `Sample QC` and `Variant QC`. Sample QC is usually done prior to Variant QC in order to maximise the number of variants remained for association analysis.
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/8644480/170681398-e29f945e-fc94-4876-b695-9a8f2250968e.png"  width="500" height="300">
-</p>
-
-In this practical, we will investigate the
-+ **Missingness** for samples and variants
-+ **Heterogeneity** in terms of inbreeding coefficient for sex chromosomes and autosomes
-+ Identify-by-descent (IBD) and coefficient of relationship (PI_hat) for **relatedness** assessment
-+ Principal component analysis (PCA) for identification of **population outliers**
-+ Hardy-weinberg equilibrium
-
+  
 ## Step 0: Download the genotype data
 - First, create a directory named `practical2_QC` for this practical section
 
@@ -50,6 +31,7 @@ wget https://github.com/WCSCourses/HumanGenEpi/raw/main/course_data/Sample_array
 tar -zxvf practical2.tar.gz
 ```
 
+Use `ls` to list the files in your current directory. You should get `NINE` files, including the two sets of PLINK binary genotype files (`BED`, `BIM` and `FAM`)
 - Now your current folder should contain these files
 > ASA.1000G.to-update-name.snp<br>
 > chrAll.ASA.1000GP-All.bed<br>
@@ -64,7 +46,76 @@ tar -zxvf practical2.tar.gz
 ### Dataset
 The dataset used in this practical was simuated from haplotypes of East Asian samples of the 1000 Genomes Project ([Phase 3](https://www.internationalgenome.org/category/phase-3/)). SNPs included in the dataset reflect to those assayed in the [Illumina Asian Screening array](https://www.illumina.com/products/by-type/microarray-kits/infinium-asian-screening.html) designed to maximize the genomic coverage for East Asian population.
 
+## Genotype Data format
+### - PLINK binary variant file (BIM)
+Let's have a look at the variant `BIM` file
+```bash
+head chrAll.ASA.bim
+```
+BIM file stores the variant information and must contain as many markers as are in the BED file.<br>
+It contains no header line and each line describes a single marker with 4 columns:
+
+> 1. Chromosome code (1-22, 23/X, 24/Y, 25/XY, 26/MT; '0' indicates unknown)<br>
+> 2. Variant identifier<br>
+> 3. Position in morgans or centimorgans (safe to use dummy value of '0')<br>
+> 4. Base-pair coordinate (1-based)
+> 5. A1 allele (Default: minor allele)
+> 6. A2 allele (Default: major allele)
+
+:green_book: **Q:** How many SNPs are there?
+```bash
+wc -l chrAll.ASA.bim
+```
+:green_book: **Q:** Where are these SNPs located in?
+```bash
+cut -f 1 chrAll.ASA.bim | sort | uniq -c
+```
+
+### - PLINK binary pedigree file (FAM)
+Let's have a look at the `FAM` file
+```bash
+less -S chrAll.ASA.fam   # type 'q' to quit
+```
+The FAM file is a white-space (space or tab) delimited file<br>
+It has no header line, and one line per sample with 6 columns:
+
+> 1. Family ID ('FID')<br>
+> 2. Individual ID('IID')<br>
+> 3. Within-family ID of father ('0' if father isn't in dataset)<br>
+> 4. Within-family ID of mother ('0' if mother isn't in dataset)<br>
+> 5. Sex (1=male; 2=female; 0=unknown)<br>
+> 6. Phenotype (1=control, 2=case, -9 / 0=missing for case-control; numeric for quantitative trait)<br>
+
+:green_book: **Q:** How many samples are there?
+```bash
+wc chrAll.ASA.fam
+```
+:green_book: **Q:** Any sample belongs to the same family?
+```bash
+awk '$3!=0 || $4!=0' chrAll.ASA.fam
+```
+
 ## Sample-QC
+
+## Why do we need the QC on GWAS data?
+Suboptimal study design, poor sample quality, and errors in genotype calling can introduce systematic biases into GWAS, leading to spurious associations. A thorough QC can help us identify samples and variants that should be removed prior to association analysis to minimize false-positive and false-negative associations.
+
+Here we assume that the study design has been conducted appropriately and basic QC to genotypes (e.g. QC based on GenTrain score in Illumina GenomeStudio or rare SNPs calling using zCall) has been performed after clustering and calling from probe intensity data. 
+
+## The QC protocol: from Sample QC to Variant QC 
+The QC protocol for GWAS typically split into two broad categories, `Sample QC` and `Variant QC`. Sample QC is usually done prior to Variant QC in order to maximise the number of variants remained for association analysis.
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/8644480/170681398-e29f945e-fc94-4876-b695-9a8f2250968e.png"  width="500" height="300">
+</p>
+
+In this practical, we will investigate the
++ **Missingness** for samples and variants
++ **Heterogeneity** in terms of inbreeding coefficient for sex chromosomes and autosomes
++ Identify-by-descent (IBD) and coefficient of relationship (PI_hat) for **relatedness** assessment
++ Principal component analysis (PCA) for identification of **population outliers**
++ Hardy-weinberg equilibrium
++ 
 ## Step 1: Individuals with excessive missing genotypes
 - Obtain profile of missingness per individual and per SNP
 ```bash
