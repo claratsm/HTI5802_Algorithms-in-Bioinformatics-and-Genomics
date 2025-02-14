@@ -42,6 +42,8 @@ Use `ls` to list the files in your current directory. You should get `NINE` file
 > chrAll.ASA.fam<br>
 > integrated_call_samples_v3.20130502.ALL.panel<br>
 > practical2.PCAplot.R<br>
+> practical3.manhattanPlot.R<br>
+> CAD_LDL.pheno<br>
 
 ### Dataset
 The dataset used in this practical was simuated from haplotypes of East Asian samples of the 1000 Genomes Project ([Phase 3](https://www.internationalgenome.org/category/phase-3/)). SNPs included in the dataset reflect to those assayed in the [Illumina Asian Screening array](https://www.illumina.com/products/by-type/microarray-kits/infinium-asian-screening.html) designed to maximize the genomic coverage for East Asian population.
