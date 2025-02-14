@@ -20,7 +20,7 @@ mkdir ~/practical2_QC
 cd ~/practical2_QC
 ```
 
-- Move the files in 1000gData to your current directory
+- Move the files in 1000gData to your current directory !!!!!!!!!!!!!!!!!!!!!!!! NEED TO MAKE THE DATA SMALLER FIRST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ```bash
 mv ~/1000gData/* .
 ```
@@ -119,7 +119,7 @@ In this practical, we will investigate the
 ## Step 1: Individuals with excessive missing genotypes
 - Obtain profile of missingness per individual and per SNP
 ```bash
-plink --bfile chrAll.ASA --missing --out chrAll.ASA.beforeQC
+~/plink --bfile chrAll.ASA --missing --out chrAll.ASA.beforeQC
 ```
 This command generates two files, including `.imiss` for sample-based and `.lmiss` for variant-based missingness
 > chrAll.ASA.beforeQC.imiss    # per individual<br>
@@ -198,11 +198,11 @@ We typically remove samples and variants with high degree of missingness using l
 ## Step 2: Individuals with sex discrepancy
 - Obtain missingness of chr X
 ```bash
-plink --bfile chrAll.ASA --chr 23 --missing --out chrX.ASA.beforeQC
+~/plink --bfile chrAll.ASA --chr 23 --missing --out chrX.ASA.beforeQC
 ```
 - Check sex
 ```bash
-plink --bfile chrAll.ASA --check-sex --out chrX.ASA
+~/plink --bfile chrAll.ASA --check-sex --out chrX.ASA
 ```
 The function of `--check-sex` normally compares the sex assignments in the input pedigree file (`PEDSEX`) with inbreeding coefficients (F) imputed from SNPs on chromosome X. By default, the F estimates smaller than 0.2 yield female calls, and values larger than 0.8 yield male calls for `SNPSEX`. 
 
@@ -248,7 +248,7 @@ legend("bottomleft", c("Male PEDSEX","Female PEDSEX","sample with PROBELM"), col
 
 In addition to poor sample or genotyping quality, X chromosome aneuploidy, such as Turner syndrome (e.g. 45,X0) and Klinefelter syndrome (47, XXY), may lead to abnormal heterogenity. Missingness for SNPs on chr Y can be used to impute sex using `--check-sex ycount [female max F] [male min F] [female max Y obs] [male min Y obs]`. Before determining the minimum and maximum threshold of observed chrY variants, we can first set [female max Y obs] to maximum number of chrY variants and [male min Y obs] to 0  
 ```bash
-plink --bfile chrAll.ASA --check-sex ycount 0.2 0.8 805 0 --out chrXY.ASA.without-ycount
+~/plink --bfile chrAll.ASA --check-sex ycount 0.2 0.8 805 0 --out chrXY.ASA.without-ycount
 ```
 :closed_book: **Q:** Do the samples detected by sex discrepancy or abnormal heterogenity look like having X chromosome aneuploidy?
 <details>
@@ -285,7 +285,7 @@ abline(h=0.8, lwd=2, lty=2, col="blue")
   
 You can now rerun `--check-sex` with appropriate [female max Y obs] and [male min Y obs] thresholds, e.g. 100 and 700. Samples with abormal number of non-missing genotypes on chrY will be flagged as ambiguous in `SNPSEX`.         
 ```bash
-plink --bfile chrAll.ASA --check-sex ycount 0.2 0.8 100 700 --out chrXY.ASA.with-ycount
+~/plink --bfile chrAll.ASA --check-sex ycount 0.2 0.8 100 700 --out chrXY.ASA.with-ycount
 egrep -h PROBLEM chrXY.ASA.without-ycount.sexcheck chrXY.ASA.with-ycount.sexcheck | sort | uniq -u
 ```
 :closed_book: **Q:** What is the most likely karyotype for the **id2_669** sample?
@@ -305,17 +305,17 @@ awk '$5=="PROBLEM"{ print $1,$2 }' chrXY.ASA.with-ycount.sexcheck > to-remove.se
 To avoid bias by genotyping error of rare variants and linkage disequilibrium, we usually perform the heterogeneity check using only common variants (MAF>=5%) and SNPs in strong LD
 - Filter out low frequency and rare variants with MAF cut-off of 5%
 ```bash
-plink --bfile chrAll.ASA --autosome --maf 0.05 --make-bed --missing --out chr1-22.ASA.maf05
+~/plink --bfile chrAll.ASA --autosome --maf 0.05 --make-bed --missing --out chr1-22.ASA.maf05
 ```
 - LD pruning using R-squared 0.1
 ```bash
-plink --bfile chr1-22.ASA.maf05 --indep-pairwise 200 50 0.1 --out chr1-22.ASA.maf05.pruning
+~/plink --bfile chr1-22.ASA.maf05 --indep-pairwise 200 50 0.1 --out chr1-22.ASA.maf05.pruning
 ```
 ```bash
-plink --bfile chr1-22.ASA.maf05 --extract chr1-22.ASA.maf05.pruning.prune.in --make-bed --out chr1-22.ASA.maf05.pruned
+~/plink --bfile chr1-22.ASA.maf05 --extract chr1-22.ASA.maf05.pruning.prune.in --make-bed --out chr1-22.ASA.maf05.pruned
 ```
 ```bash
-plink --bfile chr1-22.ASA.maf05.pruned --het --out chr1-22.ASA.maf05.pruned
+~/plink --bfile chr1-22.ASA.maf05.pruned --het --out chr1-22.ASA.maf05.pruned
 ```
 ```R
 # ========================== R code ==========================
@@ -358,7 +358,7 @@ For case-control association analysis, we need to make sure that the samples are
 
 - Obtain pair-wise IBD for relatedness checking
 ```bash
-plink --bfile chr1-22.ASA.maf05.pruned --genome --out chr1-22.ASA.maf05.pruned.IBDcheck
+~/plink --bfile chr1-22.ASA.maf05.pruned --genome --out chr1-22.ASA.maf05.pruned.IBDcheck
 ```
 - Check the IBD0, IBD1, IBD2 and PI_hat for samples with high missingness
 ```bash
@@ -401,18 +401,18 @@ To validate the self-reported ethnicity and to ensure no population outlier, we 
 - Remove samples with high missingness and related samples and merge with the 1000 Genomes Project data
 ```bash
 cat to-remove.mind02.indiv to-remove.related.indiv > to-remove.mind02_related.indiv
-plink --bfile chrAll.ASA --remove to-remove.mind02_related.indiv --update-name ASA.1000G.to-update-name.snp --make-bed --out chrAll.ASA.id-1000G.rm-mind02_related
-plink --bfile chrAll.ASA.id-1000G.rm-mind02_related --bmerge chrAll.ASA.1000GP-All --make-bed --out merged.chrAll.ASA.1000G.rm-mind02_related
+~/plink --bfile chrAll.ASA --remove to-remove.mind02_related.indiv --update-name ASA.1000G.to-update-name.snp --make-bed --out chrAll.ASA.id-1000G.rm-mind02_related
+~/plink --bfile chrAll.ASA.id-1000G.rm-mind02_related --bmerge chrAll.ASA.1000GP-All --make-bed --out merged.chrAll.ASA.1000G.rm-mind02_related
 ```
 - Extract only common variants not violating Hardy-Weinberg equilibrium and perform pruning to remove SNPs in LD
 ```bash
-plink --bfile merged.chrAll.ASA.1000G.rm-mind02_related \
+~/plink --bfile merged.chrAll.ASA.1000G.rm-mind02_related \
   --maf 0.05 --hwe 1e-5 --geno 0.05 \
   --indep-pairwise 200 50 0.1 \
   --out merged.chrAll.ASA.1000G.rm-mind02_related
 ```
 - Perform PCA on pruned dataset (PS: You can speed up this step by using more than **1 thread** if your VM is setup with multiple processors)
-<pre><code>plink --bfile merged.chrAll.ASA.1000G.rm-mind02_related \
+<pre><code>~/plink --bfile merged.chrAll.ASA.1000G.rm-mind02_related \
   --extract merged.chrAll.ASA.1000G.rm-mind02_related.prune.in \
   --pca 3 \
   --out merged.chrAll.ASA.1000G.rm-mind02_related.pruned \
@@ -440,7 +440,7 @@ Rscript practical2.PCAplot.R merged.chrAll.ASA.1000G.rm-mind02_related.pruned.ei
 #### **QC: Combine all sample outliers' files and remove these outliers to obtain a new PLINK file with samples passing QC**
 ```bash
 cat to-remove.QC_steps1to3.indiv to-remove.related.indiv > to-remove.QC_steps1to4.indiv
-plink --bfile chrAll.ASA --remove to-remove.QC_steps1to4.indiv --make-bed --out chrAll.ASA.afterSampleQC
+~/plink --bfile chrAll.ASA --remove to-remove.QC_steps1to4.indiv --make-bed --out chrAll.ASA.afterSampleQC
 ```
 
 - Retry the PCA with removal of all samples not passing QC, including those failed heterogeneity tests in Steps 2 and 3
@@ -448,16 +448,16 @@ plink --bfile chrAll.ASA --remove to-remove.QC_steps1to4.indiv --make-bed --out 
   <summary> Try your own PLINK / R codes </summary>
 
 ```bash
-plink --bfile chrAll.ASA.afterSampleQC --update-name ASA.1000G.to-update-name.snp --make-bed --out chrAll.ASA.id-1000G.afterSampleQC
-plink --bfile chrAll.ASA.id-1000G.afterSampleQC --bmerge chrAll.ASA.1000GP-All --make-bed --out merged.chrAll.ASA.1000G.afterSampleQC
+~/plink --bfile chrAll.ASA.afterSampleQC --update-name ASA.1000G.to-update-name.snp --make-bed --out chrAll.ASA.id-1000G.afterSampleQC
+~/plink --bfile chrAll.ASA.id-1000G.afterSampleQC --bmerge chrAll.ASA.1000GP-All --make-bed --out merged.chrAll.ASA.1000G.afterSampleQC
 ```
 <pre><code>
-plink --bfile merged.chrAll.ASA.1000G.afterSampleQC \
+~/plink --bfile merged.chrAll.ASA.1000G.afterSampleQC \
   --maf 0.05 --hwe 1e-5 --geno 0.05 \
   --indep-pairwise 200 50 0.1 \
   --out merged.chrAll.ASA.1000G.afterSampleQC
   
-plink --bfile merged.chrAll.ASA.1000G.afterSampleQC \
+~/plink --bfile merged.chrAll.ASA.1000G.afterSampleQC \
   --extract merged.chrAll.ASA.1000G.afterSampleQC.prune.in \
   --pca 3 \
   --out merged.chrAll.ASA.1000G.afterSampleQC.pruned \
@@ -488,7 +488,7 @@ Here we are using the following thresholds:
 
 **QC: We can combine all these variant QCs into one single PLINK command:**
 ```bash
-plink --bfile chrAll.ASA.afterSampleQC \
+~/plink --bfile chrAll.ASA.afterSampleQC \
   --geno 0.02 \
   --hwe 1e-4 \
   --maf 0.01 \
@@ -555,7 +555,7 @@ Next, we will use PLINK to perform association test
  
 ### 1. Perform linear regression WITHOUT adjusting for age to test for association with LDL 
 ```bash  
-plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
+~/plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
   --chr 1-22,X,XY \
   --pheno CAD_LDL.pheno \
   --pheno-name LDL \
@@ -575,7 +575,7 @@ head -n 2 LDL.assoc.linear.adjusted
  
 + **Answer 2**: SNP effect beta (95% CI) = -0.9111 (-1.057, -0.7652).<br>
 You can add `--ci 0.95` while running the regression test in PLINK or you can compute the 95% CI in R
-<pre><code>plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
+<pre><code>~/plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
   <b>--snp rs2075650</b> \
   --pheno CAD_LDL.pheno --pheno-name LDL \
   --linear <b>--ci 0.95</b> \
@@ -608,7 +608,7 @@ Rscript practical3.manhattanPlot.R LDL.assoc.linear manhattanPlot.LDL
 ### 2.  Perform linear regression while adjusted for age
 To adjust for confounding factor(s), you can use `--covar <filename>` to specify the covariate file, i.e. `CAD_LDL.pheno` in this example. The covariate(s) used for adjustment is specified through `--covar-name`.
  
-<pre><code>plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
+<pre><code>~/plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
   --chr 1-22,X,XY \
   --pheno CAD_LDL.pheno \
   --pheno-name LDL \
@@ -627,7 +627,7 @@ Rscript practical3.manhattanPlot.R LDL.adj-AGE.assoc.linear manhattanPlot.LDL.ad
 ### 3. Perform logistic regression with and without adjusting for age to test for association with CAD
 - Without adjusting for age
 ```bash 
-plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
+~/plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
  --chr 1-22,X,XY \
  --pheno CAD_LDL.pheno --pheno-name CAD \
  --logistic \
@@ -635,7 +635,7 @@ plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
 ```
 - Adjusting for age
 ```bash 
-plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
+~/plink --bfile chrAll.ASA.afterSampleQC.afterVariantQC \
  --chr 1-22,X,XY \
  --pheno CAD_LDL.pheno --pheno-name CAD \
  --covar CAD_LDL.pheno --covar-name AGE --hide-covar \
