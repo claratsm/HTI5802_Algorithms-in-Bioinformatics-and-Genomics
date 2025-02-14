@@ -411,7 +411,8 @@ cat to-remove.mind02.indiv to-remove.related.indiv > to-remove.mind02_related.in
 ```bash
 Rscript practical2.PCAplot.R merged.chrAll.ASA.1000G.rm-mind02_related.pruned.eigenvec
 ```
-<img src="https://user-images.githubusercontent.com/8644480/170877252-273d5367-dbf8-4bd5-8b47-e3cf4b2b17c4.png" width=500>
+
+<img src="https://github.com/user-attachments/assets/99cd3381-082f-4d30-bb7c-6b5236316683" width=500>
 
 :closed_book: **Q:** Can you find the population outliers?<br>
 :closed_book: **Q:** Can you relate the results of the PCA and heterogeneity analyses for these samples?
@@ -455,8 +456,6 @@ cat to-remove.QC_steps1to3.indiv to-remove.related.indiv > to-remove.QC_steps1to
 ```bash
 Rscript practical2.PCAplot.R merged.chrAll.ASA.1000G.afterSampleQC.pruned.eigenvec 
 ```
-  ![practical2 1000G-all PCA](https://github.com/user-attachments/assets/99cd3381-082f-4d30-bb7c-6b5236316683)
-<img src="[https://github.com/user-attachments/assets/99cd3381-082f-4d30-bb7c-6b5236316683.png" width=500>
 
 <img src="https://user-images.githubusercontent.com/8644480/170875864-98e95f97-b673-4fd9-9126-d4cf545923bd.png" width=500>
 
