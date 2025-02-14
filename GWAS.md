@@ -21,8 +21,8 @@ cd ~/gwas
 
 - Download all zip file under it to your current directory
 ```bash
-wget https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/blob/main/Practical/gwas.tar.gz
-wget https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/blob/main/Practical/1000gData.tar.gz
+wget https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/raw/main/Practical/gwas.tar.gz
+wget https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/raw/main/Practical/1000gData.tar.gz
 tar -zxvf gwas.tar.gz
 tar -zxvf 1000gData.tar.gz
 ```
