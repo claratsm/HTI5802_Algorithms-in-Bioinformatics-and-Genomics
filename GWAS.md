@@ -17,7 +17,7 @@ For sample and variant QC, we need the following software that is pre-installed 
 
 - Download all zip file under it to your current directory
 ```bash
-wget https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/tree/93581aacd88456d53f1a816f0f5ede4315364900/Practical/gwas.tar.gz
+wget https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/Practical/gwas.tar.gz
 tar -zxvf gwas.tar.gz
 ```
 
