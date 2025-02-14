@@ -1,9 +1,9 @@
-#HTI5802: Algorithms in Bioinformatics and Genomics
+# HTI5802: Algorithms in Bioinformatics and Genomics
 
 
-##2025-2-15
+## 2025-2-15
 
-###Welcome
+### Welcome
 
 Welcome to the github site for practical sections of HTI5802: Algorithms in Bioinformatics and Genomics. Most contents are demonstrated with PLINK and R programming language.
 
