@@ -455,7 +455,9 @@ cat to-remove.QC_steps1to3.indiv to-remove.related.indiv > to-remove.QC_steps1to
 ```bash
 Rscript practical2.PCAplot.R merged.chrAll.ASA.1000G.afterSampleQC.pruned.eigenvec 
 ```
-  
+  ![practical2 1000G-all PCA](https://github.com/user-attachments/assets/99cd3381-082f-4d30-bb7c-6b5236316683)
+<img src="[https://github.com/user-attachments/assets/99cd3381-082f-4d30-bb7c-6b5236316683.png" width=500>
+
 <img src="https://user-images.githubusercontent.com/8644480/170875864-98e95f97-b673-4fd9-9126-d4cf545923bd.png" width=500>
 
 </details>
