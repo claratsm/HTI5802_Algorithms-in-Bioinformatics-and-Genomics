@@ -184,16 +184,6 @@ abline(h=0.02, lwd=2, lty=2, col="darkblue")
 abline(h=0.01, lwd=2, lty=2, col="darkgreen")
 ```
 ![practical2 missing-hist4](https://user-images.githubusercontent.com/8644480/170831061-7d3811a0-8502-4a6e-bc22-e4d5a45eb52e.png)
-
-- **Answer 3**
-```R
-#==== R =====
-plot(imiss$F_MISS,pch=20,col="darkred", main="Sample Call Rate", xlab="ASA samples", ylab="F_MISS")
-abline(h=0.02, lwd=2, lty=2, col="darkblue")
-abline(h=0.01, lwd=2, lty=2, col="darkgreen")
-```
-![practical2 missing-hist5](https://user-images.githubusercontent.com/8644480/170831069-58dd61a8-b4db-4ee2-a6a7-e63968b35108.png)
-
 </details>
 We typically remove samples and variants with high degree of missingness using less stringent threshold (e.g. missingness > 5% or 10%) at early stages of the QC steps; however, to illustrate how bad calling related to different QC measures, we keep all samples till the end of the QC practical.
 
