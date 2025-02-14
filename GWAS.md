@@ -13,11 +13,12 @@ For sample and variant QC, we need the following software that is pre-installed 
 - `R` for visualization of different QC measures
   
 ## Step 0: Download the genotype data
-- First, create a directory named `practical2_QC` for this practical section
 
+
+- Download all zip file under it to your current directory
 ```bash
-mkdir ~/practical2_QC
-cd ~/practical2_QC
+wget https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/tree/93581aacd88456d53f1a816f0f5ede4315364900/Practical/gwas.tar.gz
+tar -zxvf gwas.tar.gz
 ```
 
 - Move the files in 1000gData to your current directory !!!!!!!!!!!!!!!!!!!!!!!! NEED TO MAKE THE DATA SMALLER FIRST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -25,10 +26,9 @@ cd ~/practical2_QC
 mv ~/1000gData/* .
 ```
 
-- Download all zip file under it to your current directory
+- First, go to a directory named `gwas` for this practical section
 ```bash
-wget https://github.com/WCSCourses/HumanGenEpi/raw/main/course_data/Sample_array_QC/practical2.tar.gz
-tar -zxvf practical2.tar.gz
+cd ~/gwas
 ```
 
 Use `ls` to list the files in your current directory. You should get `NINE` files, including the two sets of PLINK binary genotype files (`BED`, `BIM` and `FAM`)
