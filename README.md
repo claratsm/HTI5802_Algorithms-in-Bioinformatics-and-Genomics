@@ -9,7 +9,7 @@ Welcome to the github site for practical sections of HTI5802: Algorithms in Bioi
 
 This site is designed as a collection of R Markdown notebooks, as supplementary to the lecture notes for the courses of GWAS and sequence interpretation of HTI5802 at PolyU.
 
-1. [Genomewide association analysis (GWAS)]()
+1. [Genomewide association analysis (GWAS)](https://github.com/claratsm/HTI5802_Algorithms-in-Bioinformatics-and-Genomics/blob/main/GWAS.md)
 2. [Variant interpretation for clinical sequencing]()
 
 Note: Most contents may be updated before or right after the lectures, so please refer to the updated version.
